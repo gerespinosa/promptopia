@@ -80,7 +80,7 @@ const Nav = () => {
                 {session?.user
                     ?
                     <div className="flex">
-                        <Image src={'/assets/images/logo.svg'}
+                        <Image src={session?.user?.image}
                             width={37}
                             height={37}
                             alt="Profile Pic"
