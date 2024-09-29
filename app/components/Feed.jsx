@@ -21,9 +21,22 @@ const Feed = () => {
 
     const [searchText, setSearchText] = useState('')
     const [posts, setPosts] = useState([])
+    const [allPosts, setAllPosts] = useState([])
 
     const handleSearchChange = (e) => {
-
+        e.preventDefault()
+        setSearchText(e.target.value)
+        console.log(posts)
+        if (e.target.value !== '') {
+            let filteredPosts = posts.filter((p) =>
+                p.prompt.toLowerCase().includes(`${searchText}`) ||
+                p.tag.toLowerCase().includes(`${searchText}`) ||
+                p.creator.username.toLowerCase().includes(`${searchText}`)
+            )
+            setPosts(filteredPosts)
+        } else {
+            setPosts(allPosts)
+        }
     }
 
     useEffect(() => {
@@ -31,6 +44,7 @@ const Feed = () => {
             const response = await fetch('/api/prompt')
             const data = await response.json()
             setPosts(data)
+            setAllPosts(data)
         }
 
         console.log(posts)
@@ -42,7 +56,7 @@ const Feed = () => {
             <form className="relative w-full flex-center">
                 <input type="text"
                     placeholder="Search for a tag or a username"
-                    value={(searchText)}
+                    value={searchText}
                     onChange={handleSearchChange}
                     className="search_input peer" />
             </form>
