@@ -8,14 +8,15 @@ import Form from '../components/Form'
 
 const CreatePrompt = () => {
 
+    const router = useRouter()
+    const { data: session } = useSession()
+
     const [submitting, setSubmitting] = useState(false)
     const [post, setPost] = useState({
         prompt: '',
         tag: ''
     });
 
-    const router = useRouter()
-    const { data: session } = useSession()
 
     const createPrompt = async (e) => {
         e.preventDefault();
