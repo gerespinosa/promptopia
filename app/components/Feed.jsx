@@ -2,20 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-import PromptCard from "./PromptCard";
-
-const PromptCardList = ({ data, handleTagClick }) => {
-    return (
-        <div className="mt-16 prompt_layout">
-            {data.map((post) => (
-                <PromptCard key={post.id}
-                    post={post}
-                    handleTagClick={handleTagClick}
-                />)
-            )}
-        </div>
-    )
-}
+import { PromptCardList } from "./PromptCardList";
 
 const Feed = () => {
 
@@ -26,7 +13,6 @@ const Feed = () => {
     const handleSearchChange = (e) => {
         e.preventDefault()
         setSearchText(e.target.value)
-        console.log(posts)
         if (e.target.value !== '') {
             let filteredPosts = posts.filter((p) =>
                 p.prompt.toLowerCase().includes(`${searchText}`) ||
@@ -46,10 +32,16 @@ const Feed = () => {
             setPosts(data)
             setAllPosts(data)
         }
-
-        console.log(posts)
         fetchPost()
     }, [])
+
+    const handleTagClick = (tag) => {
+        setSearchText(tag)
+        let filteredPosts = posts.filter((p) =>
+            p.tag.toLowerCase().includes(`${tag}`)
+        )
+        setPosts(filteredPosts)
+    }
 
     return (
         <section className="feed">
@@ -63,7 +55,7 @@ const Feed = () => {
 
             <PromptCardList
                 data={posts}
-                handleTagClick={() => { }}
+                handleTagClick={() => handleTagClick}
             />
 
         </section>
